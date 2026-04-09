@@ -29,9 +29,9 @@ function Login() {
         {
           email: email,
           password: password,
-        },
-        { withCredentials: true },
+        }
       );
+      localStorage.setItem("token", result.data.token);
       console.log("Login successful:", result.data);
       await getCurrentUser(); // Login ke baad current user data fetch karne ke liye
       navigate("/"); // Login ke baad home par bhej dega

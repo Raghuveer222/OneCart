@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 
 // ✅ Provider
 const AuthProvider = ({ children }) => {
-  const serverUrl = "http://localhost:8000";
+  const serverUrl = "https://onecart-backend-7ely.onrender.com";
 
   return (
     <AuthContext.Provider value={{ serverUrl }}>

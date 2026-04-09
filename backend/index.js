@@ -16,7 +16,7 @@ const app = express();
 // 1. CORS Configuration (Keep this first)
 app.use(
   cors({
-    origin: ["https://onecart-frontend1-5xnl.onrender.com", "http://localhost:5174"],
+    origin: ["https://onecart-frontend1-5xnl.onrender.com", "https://onecart-admin-lamf.onrender.com"],
     credentials: true,
   }),
 );

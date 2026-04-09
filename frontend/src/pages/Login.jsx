@@ -29,11 +29,10 @@ function Login() {
         {
           email: email,
           password: password,
-        }
+        },
+        { withCredentials: true },
       );
-      localStorage.setItem("token", result.data.token);
       console.log("Login successful:", result.data);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
       await getCurrentUser(); // Login ke baad current user data fetch karne ke liye
       navigate("/"); // Login ke baad home par bhej dega
     } catch (error) {
@@ -52,10 +51,9 @@ function Login() {
 
       const result = await axios.post(
         `${serverUrl}/api/auth/googlelogin`,
-        { name, email }
+        { name, email },
+        { withCredentials: true },
       );
-      localStorage.setItem("token", result.data.token);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
       await getCurrentUser(); // Google login ke baad current user data fetch karne ke liye
       navigate("/");
       console.log("Google login successful:", result.data);

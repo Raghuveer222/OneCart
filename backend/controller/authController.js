@@ -21,10 +21,12 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword });
     let token = genToken(user._id);
-    return res.status(201).json({
-  user,
-  token,
-});
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // Set to true in production
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
     return res.status(201).json(user);
   } catch (error) {
     console.error("Error registering user:", error);
@@ -44,11 +46,12 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
     let token = genToken(user._id);
-   return res.status(200).json({
-  message: "Login successful",
-  user,
-  token,
-});
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // Set to true in production
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
     return res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     console.error("Error logging in user:", error);
@@ -57,7 +60,18 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  return res.status(200).json({ message: "Logout successful" });
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true, // required on Render (HTTPS)
+      sameSite: "None", // required for cross-origin
+    });
+
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error logging out user:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 export const googleLogin = async (req, res) => {
@@ -68,11 +82,12 @@ export const googleLogin = async (req, res) => {
       user = await User.create({ name, email });
     }
     let token = genToken(user._id);
-   return res.status(200).json({
-  message: "Google login successful",
-  user,
-  token,
-});
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // Set to true in production
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
     return res.status(200).json({ message: "Google login successful", user });
   } catch (error) {
     console.error("Error with Google login:", error);
@@ -88,9 +103,12 @@ export const adminLogin = async (req, res) => {
       password === process.env.ADMIN_PASSWORD
     ) {
       let token = genToken1(email);
-      return res.status(200).json({
-  token,
-});
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: false, // Set to true in production
+        sameSite: "strict",
+        maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+      });
       return res.status(200).json(token);
     } else {
       return res.status(401).json({ message: "Invalid admin credentials" });

@@ -3,7 +3,7 @@ import Logo from "../assets/logo.png";
 import google from "../assets/google.png";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { AuthDataContext } from "../context/authContext";
+import { AuthDataContext } from "../context/AuthContext";
 import axios from "axios";
 
 import { auth, provider } from "../utils/Firebase";

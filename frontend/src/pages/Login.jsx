@@ -33,6 +33,7 @@ function Login() {
       );
       localStorage.setItem("token", result.data.token);
       console.log("Login successful:", result.data);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
       await getCurrentUser(); // Login ke baad current user data fetch karne ke liye
       navigate("/"); // Login ke baad home par bhej dega
     } catch (error) {
@@ -51,9 +52,10 @@ function Login() {
 
       const result = await axios.post(
         `${serverUrl}/api/auth/googlelogin`,
-        { name, email },
-        { withCredentials: true },
+        { name, email }
       );
+      localStorage.setItem("token", result.data.token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${result.data.token}`;
       await getCurrentUser(); // Google login ke baad current user data fetch karne ke liye
       navigate("/");
       console.log("Google login successful:", result.data);

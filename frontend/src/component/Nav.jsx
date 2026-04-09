@@ -18,11 +18,28 @@ function Nav() {
   let navigate = useNavigate();
   let { serverUrl } = useContext(AuthDataContext);
 
- const handleLogout = () => {
-  localStorage.removeItem("token"); 
-  delete axios.defaults.headers.common["Authorization"];
-  navigate("/login");
-};
+ const handleLogout = async () => {
+    try {
+      const result = await axios.get(serverUrl + "/api/auth/logout", {
+        withCredentials: true,
+      });
+
+      console.log(result.data);
+
+      // ✅ Remove token (IMPORTANT)
+      localStorage.removeItem("token");
+
+      // ✅ Remove axios auth header (if used)
+      delete axios.defaults.headers.common["Authorization"];
+
+      // ❌ Remove this line
+      // getCurrentUser();
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>

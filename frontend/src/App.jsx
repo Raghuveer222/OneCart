@@ -15,10 +15,17 @@ import Cart from "./pages/Cart.jsx";
 import PlaceOrder from "./pages/PlaceOrder.jsx";
 import Order from "./pages/Order.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import axios from "axios";
 
 const App = () => {
   let { userData } = useContext(UserDataContext);
   let location = useLocation();
+
+  const token = localStorage.getItem("token");
+
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
 
   return (
     <>

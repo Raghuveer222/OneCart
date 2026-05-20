@@ -32,7 +32,7 @@ function Login() {
         },
         { withCredentials: true },
       );
-      console.log("Login successful:", result.data);
+      // console.log("Login successful:", result.data);
       await getCurrentUser(); // Login ke baad current user data fetch karne ke liye
       navigate("/"); // Login ke baad home par bhej dega
     } catch (error) {
@@ -56,7 +56,7 @@ function Login() {
       );
       await getCurrentUser(); // Google login ke baad current user data fetch karne ke liye
       navigate("/");
-      console.log("Google login successful:", result.data);
+      // console.log("Google login successful:", result.data);
     } catch (error) {
       console.error("Google signup failed:", error);
     }

@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Title from "../component/Title";
 import { shopDataContext } from "../context/ShopContext";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import CartTotal from "../component/CartTotal";
 
@@ -58,7 +57,7 @@ function Cart() {
               className="w-full border border-[#80808048] rounded-2xl bg-[#51808030] backdrop-blur-sm p-4 sm:p-5"
             >
 
-              <div className="flex flex-col sm:flex-row gap-5 relative">
+              <div className="flex flex-col sm:flex-row gap-5">
 
                 {/* IMAGE */}
 
@@ -74,37 +73,34 @@ function Cart() {
 
                 <div className="flex flex-col justify-between flex-1 gap-4">
 
-                  <div className="flex flex-col gap-3">
+                  {/* PRODUCT NAME */}
 
-                    {/* PRODUCT NAME */}
+                  <p className="text-[20px] sm:text-[24px] md:text-[28px] text-[#f3f9fc] font-semibold leading-tight break-words">
+                    {productData.name}
+                  </p>
 
-                    <p className="text-[20px] sm:text-[24px] md:text-[28px] text-[#f3f9fc] font-semibold leading-tight break-words">
-                      {productData.name}
+                  {/* PRICE + SIZE */}
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+
+                    <p className="text-[18px] sm:text-[22px] text-[#aaf4e7] font-semibold">
+                      {currency} {productData.price}
                     </p>
 
-                    {/* PRICE + SIZE */}
-
-                    <div className="flex flex-wrap items-center gap-4">
-
-                      <p className="text-[18px] sm:text-[22px] text-[#aaf4e7] font-semibold">
-                        {currency} {productData.price}
-                      </p>
-
-                      <p className="min-w-[45px] h-[45px] px-3 text-[16px] text-white bg-[#518080b4] rounded-md flex items-center justify-center border border-[#9ff9f9]">
-                        {item.size}
-                      </p>
-                    </div>
+                    <p className="w-fit min-w-[45px] h-[40px] px-3 text-[15px] text-white bg-[#518080b4] rounded-md flex items-center justify-center border border-[#9ff9f9]">
+                      Size : {item.size}
+                    </p>
                   </div>
 
                   {/* QUANTITY + DELETE */}
 
-                  <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex flex-col xs:flex-row sm:flex-row items-start sm:items-center justify-between gap-4 w-full">
 
                     {/* QUANTITY */}
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 flex-wrap">
 
-                      <p className="text-white text-[15px] sm:text-[17px]">
+                      <p className="text-white text-[14px] sm:text-[17px] whitespace-nowrap">
                         Quantity:
                       </p>
 
@@ -112,7 +108,7 @@ function Cart() {
                         type="number"
                         min={1}
                         defaultValue={item.quantity}
-                        className="w-[70px] sm:w-[90px] px-3 py-2 text-white text-[16px] sm:text-[18px] font-semibold bg-[#518080b4] border border-[#9ff9f9] rounded-md outline-none"
+                        className="w-[65px] sm:w-[90px] px-2 py-2 text-white text-[15px] sm:text-[18px] font-semibold bg-[#518080b4] border border-[#9ff9f9] rounded-md outline-none"
                         onChange={(e) =>
                           e.target.value === "" ||
                           e.target.value === "0"
@@ -129,12 +125,12 @@ function Cart() {
                     {/* DELETE BUTTON */}
 
                     <button
-                      className="flex items-center justify-center w-[45px] h-[45px] rounded-full border border-[#9ff9f9] hover:bg-[#51808080] transition-all duration-200"
+                      className="flex items-center justify-center w-[42px] h-[42px] rounded-full border border-[#9ff9f9] hover:bg-[#51808080] transition-all duration-200 shrink-0"
                       onClick={() =>
                         updateQuantity(item._id, item.size, 0)
                       }
                     >
-                      <RiDeleteBin6Line className="text-[#9ff9f9] w-[22px] h-[22px]" />
+                      <RiDeleteBin6Line className="text-[#9ff9f9] w-[20px] h-[20px]" />
                     </button>
                   </div>
                 </div>

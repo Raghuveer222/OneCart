@@ -26,7 +26,7 @@ const Login = () => {
         { withCredentials: true },
       );
 
-      console.log("Login successful:", result.data);
+      // console.log("Login successful:", result.data);
       toast.success("Admin Login successful!");
       await getAdmin();
       navigate("/");

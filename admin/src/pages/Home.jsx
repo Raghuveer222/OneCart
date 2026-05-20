@@ -16,7 +16,7 @@ const Home = () => {
       // Fetch Products
       const productsRes = await axios.get(`${serverUrl}/api/product/list`, { withCredentials: true });
 
-      console.log("Product API Response:", productsRes.data);
+      // console.log("Product API Response:", productsRes.data);
 
       // FIX: Access the 'product' key from the response object
       if (productsRes.data.success && productsRes.data.product) {

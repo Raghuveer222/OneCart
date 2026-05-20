@@ -17,7 +17,6 @@ const AdminProvider = ({ children }) => {
         withCredentials: true,
       });
       setAdminData(result.data);
-      console.log("Admin fetched:", result.data);
     } catch (error) {
       setAdminData(null);
       console.error("Admin fetch failed:", error);

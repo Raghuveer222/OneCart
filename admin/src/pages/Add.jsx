@@ -50,8 +50,6 @@ function Add() {
           withCredentials: true, // ✅ header remove kar diya
         },
       );
-
-      console.log(result.data);
       toast.success("Product added successfully!");
       setLoading(false);
 

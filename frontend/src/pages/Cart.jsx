@@ -9,11 +9,14 @@ import CartTotal from "../component/CartTotal";
 function Cart() {
   const { products, currency, cartItem, updateQuantity } =
     useContext(shopDataContext);
+
   const [cartData, setCartData] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const tempData = [];
+
     for (const items in cartItem) {
       for (const item in cartItem[items]) {
         if (cartItem[items][item] > 0) {
@@ -25,76 +28,134 @@ function Cart() {
         }
       }
     }
-    setCartData(tempData); // Set the state
+
+    setCartData(tempData);
   }, [cartItem]);
 
   return (
-    <div className="w-[99vw] min-h-[100vh] p-[20px] overflow-hidden bg-gradient-to-l from-[#141414] to-[#0c2025]">
-      <div className="h-[8%] w-[100%] text-center mt-[80px]">
+    <div className="w-full min-h-screen px-3 sm:px-5 py-5 overflow-x-hidden bg-gradient-to-l from-[#141414] to-[#0c2025]">
+
+      {/* TITLE */}
+
+      <div className="w-full text-center mt-[80px] mb-10">
         <Title text1={"YOUR"} text2={"CART"} />
       </div>
 
-      <div className="w-[100%] h-[92%] flex flex-wrap gap-[20px]">
-        {/* 1. Removed backticks and internal quotes */}
+      {/* CART ITEMS */}
+
+      <div className="w-full flex flex-col gap-5">
+
         {cartData.map((item, index) => {
           const productData = products.find(
-            (product) => product._id === item._id,
+            (product) => product._id === item._id
           );
 
-          // 2. Added a safety check
           if (!productData) return null;
 
           return (
-            <div key={index} className="w-[100%] h-auto border-t border-b py-4">
-              <div className="w-[100%] flex items-start gap-6 bg-[#51808048] py-[10px] px-[20px] rounded-2xl relative">
-                <img
-                  className="w-[100px] h-[100px] rounded-md object-cover"
-                  src={productData.image1 || productData.image[0]} // Standardized image access
-                  alt={productData.name}
-                />
+            <div
+              key={index}
+              className="w-full border border-[#80808048] rounded-2xl bg-[#51808030] backdrop-blur-sm p-4 sm:p-5"
+            >
 
-                <div className="flex items-start justify-center flex-col gap-[10px]">
-                  <p className="md:text-[25px] text-[20px] text-[#f3f9fc]">
-                    {productData.name}
-                  </p>
-                  <div className="flex items-center gap-[20px]">
-                    <p className="text-[20px] text-[#aaf4e7]">
-                      {currency} {productData.price}
+              <div className="flex flex-col sm:flex-row gap-5 relative">
+
+                {/* IMAGE */}
+
+                <div className="flex justify-center sm:justify-start">
+                  <img
+                    className="w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] rounded-xl object-cover border border-[#9ff9f952]"
+                    src={productData.image1 || productData.image[0]}
+                    alt={productData.name}
+                  />
+                </div>
+
+                {/* DETAILS */}
+
+                <div className="flex flex-col justify-between flex-1 gap-4">
+
+                  <div className="flex flex-col gap-3">
+
+                    {/* PRODUCT NAME */}
+
+                    <p className="text-[20px] sm:text-[24px] md:text-[28px] text-[#f3f9fc] font-semibold leading-tight break-words">
+                      {productData.name}
                     </p>
-                    <p className="w-[40px] h-[40px] text-[16px] text-[white] bg-[#518080b4] rounded-md flex items-center justify-center border-[1px] border-[#9ff9f9]">
-                      {item.size}
-                    </p>
+
+                    {/* PRICE + SIZE */}
+
+                    <div className="flex flex-wrap items-center gap-4">
+
+                      <p className="text-[18px] sm:text-[22px] text-[#aaf4e7] font-semibold">
+                        {currency} {productData.price}
+                      </p>
+
+                      <p className="min-w-[45px] h-[45px] px-3 text-[16px] text-white bg-[#518080b4] rounded-md flex items-center justify-center border border-[#9ff9f9]">
+                        {item.size}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* QUANTITY + DELETE */}
+
+                  <div className="flex items-center justify-between flex-wrap gap-4">
+
+                    {/* QUANTITY */}
+
+                    <div className="flex items-center gap-3">
+
+                      <p className="text-white text-[15px] sm:text-[17px]">
+                        Quantity:
+                      </p>
+
+                      <input
+                        type="number"
+                        min={1}
+                        defaultValue={item.quantity}
+                        className="w-[70px] sm:w-[90px] px-3 py-2 text-white text-[16px] sm:text-[18px] font-semibold bg-[#518080b4] border border-[#9ff9f9] rounded-md outline-none"
+                        onChange={(e) =>
+                          e.target.value === "" ||
+                          e.target.value === "0"
+                            ? null
+                            : updateQuantity(
+                                item._id,
+                                item.size,
+                                Number(e.target.value)
+                              )
+                        }
+                      />
+                    </div>
+
+                    {/* DELETE BUTTON */}
+
+                    <button
+                      className="flex items-center justify-center w-[45px] h-[45px] rounded-full border border-[#9ff9f9] hover:bg-[#51808080] transition-all duration-200"
+                      onClick={() =>
+                        updateQuantity(item._id, item.size, 0)
+                      }
+                    >
+                      <RiDeleteBin6Line className="text-[#9ff9f9] w-[22px] h-[22px]" />
+                    </button>
                   </div>
                 </div>
-                <input
-                  type="number"
-                  min={1}
-                  defaultValue={item.quantity}
-                  className=" md:max-w-20 max-w-10 md:px-2 md:py-2 py-[5px] px-[10px] text-[white] text-[18px] font-semibold bg-[#518080b4] absolute md:top-[40%] top-[46%] left-[75%] md:left-[50%] border-[1px] border-[#9ff9f9] rounded-md "
-                  onChange={(e) =>
-                    e.target.value === "" || e.target.value === "0"
-                      ? null
-                      : updateQuantity(
-                          item._id,
-                          item.size,
-                          Number(e.target.value),
-                        )
-                  }
-                />
-                <RiDeleteBin6Line
-                  className=" text-[#9ff9f9] w-[25px] h-[25px] absolute top-[50%] md:top-[40%] md:right-[5%] right-1"
-                  onClick={() => updateQuantity(item._id, item.size, 0)}
-                />
               </div>
             </div>
           );
         })}
       </div>
-      <div className="flex justify-start items-end my-20">
+
+      {/* CART TOTAL */}
+
+      <div className="flex justify-center lg:justify-end mt-16">
+
         <div className="w-full sm:w-[450px]">
+
           <CartTotal />
+
+          {/* CHECKOUT BUTTON */}
+
           <button
-            className="text-[18px] hover:bg-slate-500 cursor-pointer bg-[#51808048] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px] border-[1px] border-[#80808049] ml-[30px] mt-[20px]"
+            className="w-full sm:w-auto text-[16px] sm:text-[18px] hover:bg-slate-500 transition-all duration-200 cursor-pointer bg-[#51808048] py-3 px-8 rounded-2xl text-white flex items-center justify-center gap-4 border border-[#80808049] mt-5"
             onClick={() => {
               if (cartData.length > 0) {
                 navigate("/placeorder");
@@ -110,4 +171,5 @@ function Cart() {
     </div>
   );
 }
+
 export default Cart;

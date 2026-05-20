@@ -24,15 +24,15 @@ function Nav() {
         withCredentials: true,
       });
 
-      console.log(result.data);
+      // console.log(result.data);
 
-      // ✅ Remove token (IMPORTANT)
+      // Remove token (IMPORTANT)
       localStorage.removeItem("token");
 
-      // ✅ Remove axios auth header (if used)
+      // Remove axios auth header (if used)
       delete axios.defaults.headers.common["Authorization"];
 
-      // ❌ Remove this line
+      // Remove this line
       // getCurrentUser();
 
       navigate("/login");

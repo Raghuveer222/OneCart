@@ -13,7 +13,7 @@ function Lists() {
       const result = await axios.get(`${serverUrl}/api/product/list`);
       // Correct property name based on your API response
       setList(result.data.product || []);
-      console.log("Fetched products:", result.data);
+      // console.log("Fetched products:", result.data);
     } catch (error) {
       console.error("Error fetching product list:", error);
       setList([]); // ensure list is empty on error

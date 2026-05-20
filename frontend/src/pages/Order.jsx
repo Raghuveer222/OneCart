@@ -15,7 +15,7 @@ function Order() {
         withCredentials: true,
       });
 
-      console.log("DATA FROM BACKEND:", result.data);
+      // console.log("DATA FROM BACKEND:", result.data);
 
       // console.log("Full Backend Response:", result.data); // DEBUG: Check this in console!
 

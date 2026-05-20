@@ -32,7 +32,7 @@ function Registeration() {
         { withCredentials: true },
       );
 
-      console.log("Registration successful:", result.data);
+      // console.log("Registration successful:", result.data);
 
       // Popup (alert) hata diya hai, ab direct redirect hoga
       navigate("/login");
